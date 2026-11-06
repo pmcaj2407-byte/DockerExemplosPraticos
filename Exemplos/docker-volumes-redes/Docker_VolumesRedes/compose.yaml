@@ -1,0 +1,24 @@
+services:
+  web:
+    image: nginx:1.27-alpine
+    ports:
+      - "8085:80"
+    volumes:
+      - site_data:/usr/share/nginx/html
+    networks:
+      - demo_net
+
+  client:
+    image: alpine:3.21
+    command: ["sh", "-c", "while true; do sleep 3600; done"]
+    environment:
+      APP_MODE: demonstracao
+    networks:
+      - demo_net
+
+volumes:
+  site_data:
+
+networks:
+  demo_net:
+    driver: bridge
